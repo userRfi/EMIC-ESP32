@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Instalación Claude Code</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f4f9; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; }
+        code { background-color: #eee; padding: 2px 5px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
+        .command-box { background-color: #1e1e1e; color: #4ec9b0; padding: 15px; border-radius: 5px; overflow-x: auto; margin: 15px 0; display: flex; justify-content: space-between; align-items: center; border: 1px solid #3c3c3c; }
+        .command-box code { background-color: transparent; color: #4ec9b0; font-size: 1.1em; font-weight: 500; }
+        .copy-btn { background-color: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9em; transition: background-color 0.3s; }
+        .copy-btn:hover { background-color: #2980b9; }
+        .copy-btn.copied { background-color: #27ae60; }
+        .step-image { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px; margin: 20px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .note { background-color: #fff3cd; border-left: 5px solid #ffeeba; padding: 15px; margin: 20px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h1>Guía de Instalación de Claude Code</h1>
+    <p>Sigue estos pasos para configurar la interfaz de línea de comandos de Claude en tu sistema Windows.</p>
+
+    <h2>1. Ejecutar el comando de instalación</h2>
+    <p>Abre <strong>Windows PowerShell</strong> y pega el siguiente comando para iniciar la instalación:</p>
+    <div class="command-box">
+        <code id="install-command">irm https://claude.ai/install.ps1 | iex</code>
+        <button class="copy-btn" onclick="copyCommand()">Copiar</button>
+    </div>
+    <img src="1.png" alt="Ejecución de comando en PowerShell" class="step-image">
+
+    <h2>2. Confirmación de instalación</h2>
+    <p>El script descargará los archivos. Al finalizar, verás la versión instalada. Si ves un aviso sobre el <strong>PATH</strong>, deberás realizar el siguiente paso manual.</p>
+    <img src="2.png" alt="Resultado de la instalación" class="step-image">
+
+    <h2>3. Ajustar Variables de Entorno (PATH)</h2>
+    <p>Para que el comando <code>claude</code> funcione en cualquier carpeta, asegúrate de añadir la ruta <code>\.local\bin</code> a tus variables de entorno de Windows.</p>
+    <img src="3.png" alt="Configuración de Path en Windows" class="step-image">
+
+    <h2>4. Configuración de Tema</h2>
+    <p>Al ejecutar <code>claude</code> por primera vez, elige el estilo visual que prefieras para tu terminal.</p>
+    <img src="4.png" alt="Selección de tema visual" class="step-image">
+
+    <h2>5. Método de Inicio de Sesión</h2>
+    <p>Selecciona si usarás tu suscripción de Claude Pro/Team o tu cuenta de Anthropic Console (API).</p>
+    <img src="5.png" alt="Selección de método de login" class="step-image">
+
+    <h2>6. Autorización de Cuenta</h2>
+    <p>Copia el enlace proporcionado en tu navegador para autorizar la conexión entre la terminal y tu cuenta de Anthropic.</p>
+    <img src="6.png" alt="Enlace de autorización OAuth" class="step-image">
+
+    <h2>7. Ingresar Código de Verificación</h2>
+    <p>Después de autorizar en el navegador, este te mostrará un <strong>código de verificación</strong>. Copia ese código y pégalo en la terminal de PowerShell para completar la autenticación.</p>
+    <div class="note">
+        <strong>Nota:</strong> El código es temporal y de un solo uso. Asegúrate de copiarlo correctamente.
+    </div>
+    <!-- <img src="7b.png" alt="Código de verificación en navegador" class="step-image"> -->
+
+    <h2>8. Conexión Exitosa</h2>
+    <p>¡Listo! La terminal confirmará tu correo electrónico y ya puedes empezar a trabajar.</p>
+    <img src="8.png" alt="Login finalizado con éxito" class="step-image">
+
+    <div class="note">
+        <strong>Siguiente paso:</strong> Escribe <code>/help</code> dentro de Claude Code para ver todos los comandos disponibles.
+    </div>
+
+    <script>
+        function copyCommand() {
+            const command = document.getElementById('install-command').textContent;
+            navigator.clipboard.writeText(command).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = '¡Copiado!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copiar';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
