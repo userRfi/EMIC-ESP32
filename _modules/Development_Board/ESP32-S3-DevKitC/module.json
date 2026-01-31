@@ -1,0 +1,52 @@
+{
+    "name": "ESP32-S3-DevKitC",
+    "version": "1.0.0",
+    "description": "Placa oficial Espressif con ESP32-S3 - WiFi + BLE 5.0 + USB nativo",
+    "author": "EMIC Development Team",
+    "category": "Development_Board",
+    "mcu": "ESP32-S3",
+    "chip": "ESP32-S3-WROOM-1",
+    "architecture": "Xtensa LX7 Dual-Core",
+    "features": {
+        "wifi": true,
+        "wifi_version": "802.11 b/g/n",
+        "bluetooth": false,
+        "ble": true,
+        "ble_version": "5.0",
+        "flash_mb": 8,
+        "psram": true,
+        "psram_mb": 8,
+        "usb_otg": true,
+        "usb_jtag": true,
+        "gpio_available": 45,
+        "adc_channels": 20,
+        "touch_pins": 14,
+        "uart_ports": 3,
+        "spi_ports": 4,
+        "i2c_ports": 2,
+        "i2s_ports": 2,
+        "lcd_interface": true,
+        "camera_interface": true,
+        "vector_extensions": true
+    },
+    "pinout": {
+        "led_builtin": 48,
+        "button_boot": 0,
+        "usb_d_plus": 20,
+        "usb_d_minus": 19,
+        "uart0_tx": 43,
+        "uart0_rx": 44,
+        "i2c_sda": 8,
+        "i2c_scl": 9,
+        "spi_mosi": 11,
+        "spi_miso": 13,
+        "spi_clk": 12,
+        "spi_cs": 10
+    },
+    "power": {
+        "voltage": "3.3V",
+        "input_voltage": "5V USB-C",
+        "regulator": "ME6211"
+    },
+    "documentation": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/hw-reference/esp32s3/user-guide-devkitc-1.html"
+}

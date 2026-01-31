@@ -1,0 +1,42 @@
+{
+    "name": "NodeMCU-32S",
+    "version": "1.0.0",
+    "description": "Placa de desarrollo compatible NodeMCU con ESP32",
+    "author": "EMIC Development Team",
+    "category": "Development_Board",
+    "mcu": "ESP32",
+    "chip": "ESP32-WROOM-32",
+    "features": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true,
+        "flash_mb": 4,
+        "psram": false,
+        "usb": "CP2102",
+        "gpio_available": 25,
+        "adc_channels": 18,
+        "touch_pins": 10,
+        "uart_ports": 3,
+        "spi_ports": 2,
+        "i2c_ports": 2
+    },
+    "pinout": {
+        "led_builtin": 2,
+        "button_boot": 0,
+        "uart0_tx": 1,
+        "uart0_rx": 3,
+        "i2c_sda": 21,
+        "i2c_scl": 22,
+        "spi_mosi": 23,
+        "spi_miso": 19,
+        "spi_clk": 18,
+        "spi_cs": 5
+    },
+    "power": {
+        "voltage": "3.3V",
+        "input_voltage": "5V USB / VIN",
+        "regulator": "AMS1117-3.3"
+    },
+    "form_factor": "30-pin",
+    "documentation": "https://docs.ai-thinker.com/esp32/boards/nodemcu_32s"
+}

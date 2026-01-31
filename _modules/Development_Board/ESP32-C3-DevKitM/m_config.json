@@ -1,0 +1,48 @@
+{
+    "name": "ESP32-C3-DevKitM",
+    "version": "1.0.0",
+    "description": "Placa oficial Espressif con ESP32-C3 - RISC-V single core",
+    "author": "EMIC Development Team",
+    "category": "Development_Board",
+    "mcu": "ESP32-C3",
+    "chip": "ESP32-C3-MINI-1",
+    "architecture": "RISC-V Single-Core",
+    "features": {
+        "wifi": true,
+        "wifi_version": "802.11 b/g/n",
+        "bluetooth": false,
+        "ble": true,
+        "ble_version": "5.0",
+        "flash_mb": 4,
+        "psram": false,
+        "usb_cdc": true,
+        "usb_jtag": true,
+        "gpio_available": 22,
+        "adc_channels": 6,
+        "uart_ports": 2,
+        "spi_ports": 3,
+        "i2c_ports": 1,
+        "i2s_ports": 1,
+        "temperature_sensor": true
+    },
+    "pinout": {
+        "led_builtin": 8,
+        "button_boot": 9,
+        "usb_d_plus": 19,
+        "usb_d_minus": 18,
+        "uart0_tx": 21,
+        "uart0_rx": 20,
+        "i2c_sda": 5,
+        "i2c_scl": 6,
+        "spi_mosi": 7,
+        "spi_miso": 2,
+        "spi_clk": 6,
+        "spi_cs": 10
+    },
+    "power": {
+        "voltage": "3.3V",
+        "input_voltage": "5V USB",
+        "regulator": "ME6211"
+    },
+    "documentation": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/hw-reference/esp32c3/user-guide-devkitm-1.html"
+}

@@ -1,0 +1,76 @@
+// =============================================================================
+// EMIC SDK - ESP32 GPIO Configuration
+// =============================================================================
+// Archivo: gpio.emic
+// Descripcion: Configuracion del periferico GPIO para ESP32
+// Autor: EMIC Development Team
+// Fecha: 2026-01-31
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// DEPENDENCIAS
+// -----------------------------------------------------------------------------
+
+EMIC:setInput(DEV:_hard/ESP32/System/system.emic)
+
+// -----------------------------------------------------------------------------
+// PARAMETROS DE ENTRADA
+// -----------------------------------------------------------------------------
+// pin      : Numero de pin GPIO (0-39)
+// name     : Nombre logico del pin (ej: LED1, BTN1)
+// mode     : Modo del pin (output, input, input_pullup, input_pulldown)
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// DEFINICIONES GPIO
+// -----------------------------------------------------------------------------
+
+EMIC:define(gpio.pin, .{pin}.)
+EMIC:define(gpio.name, .{name}.)
+EMIC:define(gpio.mode, .{output|mode}.)
+
+// Pines validos ESP32
+EMIC:define(gpio.valid_pins, 0-39)
+
+// Pines con restricciones (solo entrada)
+EMIC:define(gpio.input_only, 34,35,36,37,38,39)
+
+// Pines con flash SPI (no usar)
+EMIC:define(gpio.flash_pins, 6,7,8,9,10,11)
+
+// -----------------------------------------------------------------------------
+// MODOS DE PIN
+// -----------------------------------------------------------------------------
+
+EMIC:define(gpio.MODE_OUTPUT, 0)
+EMIC:define(gpio.MODE_INPUT, 1)
+EMIC:define(gpio.MODE_INPUT_PULLUP, 2)
+EMIC:define(gpio.MODE_INPUT_PULLDOWN, 3)
+EMIC:define(gpio.MODE_OUTPUT_OD, 4)
+EMIC:define(gpio.MODE_INOUT, 5)
+
+// -----------------------------------------------------------------------------
+// ARCHIVOS A COPIAR
+// -----------------------------------------------------------------------------
+
+EMIC:copy(inc/gpio.h > TARGET:inc/gpio.h)
+EMIC:copy(src/gpio.c > TARGET:gpio.c)
+
+// -----------------------------------------------------------------------------
+// REGISTRO EN GRUPOS
+// -----------------------------------------------------------------------------
+
+EMIC:define(main_includes.gpio, gpio)
+EMIC:define(c_modules.gpio, gpio)
+EMIC:define(inits.gpio, GPIO_Init)
+
+// -----------------------------------------------------------------------------
+// GENERACION DE DEFINICIONES DE PIN
+// -----------------------------------------------------------------------------
+
+// Genera: #define PIN_<name> <pin>
+EMIC:define(gpio_pins.{name}, .{pin}.)
+
+// =============================================================================
+// FIN DEL ARCHIVO
+// =============================================================================

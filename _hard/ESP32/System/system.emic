@@ -1,0 +1,92 @@
+// =============================================================================
+// EMIC SDK - ESP32 System Configuration
+// =============================================================================
+// Archivo: system.emic
+// Descripcion: Configuracion base del sistema para microcontroladores ESP32
+// Toolchain: ESP-IDF (Espressif)
+// Autor: EMIC Development Team
+// Fecha: 2026-01-31
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// DEFINICIONES DEL MCU
+// -----------------------------------------------------------------------------
+
+EMIC:define(system.ucName, ESP32)
+EMIC:define(system.ucFamily, ESP32)
+EMIC:define(system.arch, Xtensa_LX6)
+EMIC:define(system.bits, 32)
+EMIC:define(system.endian, little)
+
+// -----------------------------------------------------------------------------
+// TOOLCHAIN ESP-IDF
+// -----------------------------------------------------------------------------
+
+EMIC:define(system.compiler, xtensa-esp32-elf-gcc)
+EMIC:define(system.framework, ESP-IDF)
+EMIC:define(system.idf_version, 5.x)
+
+// -----------------------------------------------------------------------------
+// CONFIGURACION DE FRECUENCIAS
+// -----------------------------------------------------------------------------
+
+EMIC:define(system.fcpu, 240000000)
+EMIC:define(system.fapb, 80000000)
+EMIC:define(system.fxtal, 40000000)
+
+// -----------------------------------------------------------------------------
+// PERIFERICOS DISPONIBLES
+// -----------------------------------------------------------------------------
+
+EMIC:define(system.gpio_count, 34)
+EMIC:define(system.uart_count, 3)
+EMIC:define(system.spi_count, 4)
+EMIC:define(system.i2c_count, 2)
+EMIC:define(system.adc_count, 2)
+EMIC:define(system.timer_count, 4)
+EMIC:define(system.pwm_channels, 16)
+
+// -----------------------------------------------------------------------------
+// CARACTERISTICAS ESPECIALES ESP32
+// -----------------------------------------------------------------------------
+
+EMIC:define(system.has_wifi, true)
+EMIC:define(system.has_bluetooth, true)
+EMIC:define(system.has_ble, true)
+EMIC:define(system.has_ethernet, false)
+EMIC:define(system.has_usb, false)
+EMIC:define(system.has_can, true)
+EMIC:define(system.has_dac, true)
+EMIC:define(system.has_touch, true)
+
+// -----------------------------------------------------------------------------
+// MEMORIA
+// -----------------------------------------------------------------------------
+
+EMIC:define(system.flash_size, 4194304)
+EMIC:define(system.sram_size, 520000)
+EMIC:define(system.psram_support, true)
+
+// -----------------------------------------------------------------------------
+// RTOS
+// -----------------------------------------------------------------------------
+
+EMIC:define(system.rtos, FreeRTOS)
+EMIC:define(system.rtos_enabled, true)
+
+// -----------------------------------------------------------------------------
+// ARCHIVOS A COPIAR
+// -----------------------------------------------------------------------------
+
+EMIC:copy(inc/system.h > TARGET:inc/system.h)
+
+// -----------------------------------------------------------------------------
+// REGISTRO EN GRUPOS
+// -----------------------------------------------------------------------------
+
+EMIC:define(main_includes.system, system)
+EMIC:define(inits.system, System_Init)
+
+// =============================================================================
+// FIN DEL ARCHIVO
+// =============================================================================
