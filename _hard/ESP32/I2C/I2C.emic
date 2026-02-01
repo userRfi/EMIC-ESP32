@@ -1,0 +1,77 @@
+/*****************************************************************************
+ * @file    I2C.emic
+ * @brief   ESP32 I2C Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details I2C Master driver for ESP32. Supports I2C0 and I2C1.
+ *          Parameters: port (0/1), speed (100000/400000/1000000)
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32_I2C.{port}._EMIC
+EMIC:define(_ESP32_I2C.{port}._EMIC,true)
+
+EMIC:tag(driverName = ESP32_I2C.{port}.)
+
+// Dependencies
+EMIC:setInput(DEV:_hal/GPIO/gpio.emic)
+
+/**
+ * @fn void I2C.{port}._init(uint32_t clockSpeed);
+ * @alias i2cInit
+ * @brief Initialize I2C port with specified clock speed
+ * @param clockSpeed Clock speed in Hz (100000, 400000, or 1000000)
+ * @return void
+ */
+
+/**
+ * @fn bool I2C.{port}._write(uint8_t addr, const uint8_t* data, size_t len);
+ * @alias i2cWrite
+ * @brief Write data to I2C device
+ * @param addr 7-bit device address
+ * @param data Pointer to data buffer
+ * @param len Number of bytes to write
+ * @return true if successful
+ */
+
+/**
+ * @fn bool I2C.{port}._read(uint8_t addr, uint8_t* buffer, size_t len);
+ * @alias i2cRead
+ * @brief Read data from I2C device
+ * @param addr 7-bit device address
+ * @param buffer Pointer to receive buffer
+ * @param len Number of bytes to read
+ * @return true if successful
+ */
+
+/**
+ * @fn bool I2C.{port}._writeRegister(uint8_t addr, uint8_t reg, uint8_t val);
+ * @alias i2cWriteReg
+ * @brief Write a single byte to a register
+ * @param addr 7-bit device address
+ * @param reg Register address
+ * @param val Value to write
+ * @return true if successful
+ */
+
+/**
+ * @fn bool I2C.{port}._readRegister(uint8_t addr, uint8_t reg, uint8_t* val);
+ * @alias i2cReadReg
+ * @brief Read a single byte from a register
+ * @param addr 7-bit device address
+ * @param reg Register address
+ * @param val Pointer to store value
+ * @return true if successful
+ */
+
+// Copy I2C files to target with parameter substitution
+EMIC:copy(inc/I2C.h > TARGET:inc/I2C.{port}..h, port=.{port}., speed=.{speed}.)
+EMIC:copy(src/I2C.c > TARGET:I2C.{port}..c, port=.{port}., speed=.{speed}.)
+
+// Register I2C module
+EMIC:define(main_includes.I2C.{port}., I2C.{port}.)
+EMIC:define(c_modules.I2C.{port}., I2C.{port}.)
+EMIC:define(inits.I2C.{port}., I2C.{port}._init)
+
+EMIC:endif

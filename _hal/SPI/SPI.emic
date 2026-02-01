@@ -1,0 +1,22 @@
+/*****************************************************************************
+ * @file    SPI.emic
+ * @brief   SPI HAL Delegation Layer
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details Routes SPI requests to the appropriate _hard implementation
+ *          based on the target MCU (system.ucName).
+ *
+ * @param mode      SPI mode: Master or Slave
+ * @param host      SPI host number (2=HSPI, 3=VSPI for ESP32)
+ * @param speed     Clock speed in Hz
+ *****************************************************************************/
+
+EMIC:ifndef _HAL_SPI.{host}._EMIC
+EMIC:define(_HAL_SPI.{host}._EMIC,true)
+
+// Delegate to MCU-specific SPI implementation with parameters
+EMIC:setInput(DEV:_hard/.{system.ucName}./SPI/spi.emic, mode=.{mode}., host=.{host}., speed=.{speed}.)
+
+EMIC:endif

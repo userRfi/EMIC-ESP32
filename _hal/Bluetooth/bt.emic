@@ -1,0 +1,19 @@
+/*****************************************************************************
+ * @file    bt.emic
+ * @brief   Bluetooth HAL Delegation Layer
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details Routes Bluetooth requests to the appropriate _hard implementation
+ *          based on the target MCU (system.ucName).
+ *          Only available on MCUs with Bluetooth support (ESP32, etc.)
+ *****************************************************************************/
+
+EMIC:ifndef _HAL_BT_EMIC
+EMIC:define(_HAL_BT_EMIC,true)
+
+// Delegate to MCU-specific Bluetooth implementation
+EMIC:setInput(DEV:_hard/.{system.ucName}./Bluetooth/bt.emic)
+
+EMIC:endif

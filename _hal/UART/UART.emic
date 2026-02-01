@@ -1,0 +1,22 @@
+/*****************************************************************************
+ * @file    UART.emic
+ * @brief   UART HAL Delegation Layer
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details Routes UART requests to the appropriate _hard implementation
+ *          based on the target MCU (system.ucName).
+ *
+ * @param port      UART port number (0, 1, 2 for ESP32)
+ * @param baud      Baud rate (e.g., 9600, 115200)
+ * @param BufferSize RX/TX buffer size in bytes
+ *****************************************************************************/
+
+EMIC:ifndef _HAL_UART.{port}._EMIC
+EMIC:define(_HAL_UART.{port}._EMIC,true)
+
+// Delegate to MCU-specific UART implementation with parameters
+EMIC:setInput(DEV:_hard/.{system.ucName}./UART/UARTX.emic, port=.{port}., BufferSize=.{BufferSize}., baud=.{baud}.)
+
+EMIC:endif

@@ -1,0 +1,33 @@
+/*****************************************************************************
+ * @file    generate.emic
+ * @brief   EMIC ESP-IDF Project Generator
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details Master generator script for ESP-IDF projects.
+ *          Call this from your project's root .emic file.
+ *****************************************************************************/
+
+EMIC:ifndef _EMIC_GENERATE_ESP_IDF
+EMIC:define(_EMIC_GENERATE_ESP_IDF,true)
+
+// Validate target MCU
+EMIC:if(.{system.ucName}.!=ESP32)
+EMIC:error("This generator is only for ESP32 target. Set system.ucName=ESP32")
+EMIC:endif
+
+// Set framework identifier
+EMIC:define(system.framework, ESP-IDF)
+
+// Include main generator
+EMIC:setInput(DEV:_main/esp-idf/main.emic)
+
+// Create directory structure
+EMIC:mkdir(TARGET:main)
+EMIC:mkdir(TARGET:main/inc)
+EMIC:mkdir(TARGET:components)
+EMIC:mkdir(TARGET:emic_generated)
+EMIC:mkdir(TARGET:emic_generated/inc)
+
+EMIC:endif

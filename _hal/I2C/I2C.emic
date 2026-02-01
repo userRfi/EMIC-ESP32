@@ -1,0 +1,21 @@
+/*****************************************************************************
+ * @file    I2C.emic
+ * @brief   I2C HAL Delegation Layer
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details Routes I2C requests to the appropriate _hard implementation
+ *          based on the target MCU (system.ucName).
+ *
+ * @param port      I2C port number (0, 1 for ESP32)
+ * @param speed     Clock speed in Hz (100000, 400000, 1000000)
+ *****************************************************************************/
+
+EMIC:ifndef _HAL_I2C.{port}._EMIC
+EMIC:define(_HAL_I2C.{port}._EMIC,true)
+
+// Delegate to MCU-specific I2C implementation with parameters
+EMIC:setInput(DEV:_hard/.{system.ucName}./I2C/I2C.emic, port=.{port}., speed=.{speed}.)
+
+EMIC:endif

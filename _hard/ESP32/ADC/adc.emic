@@ -1,0 +1,66 @@
+/*****************************************************************************
+ * @file    adc.emic
+ * @brief   ESP32 ADC Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details ADC driver for ESP32 using adc_oneshot driver.
+ *          ADC1: 8 channels (GPIO 32-39) - works with WiFi
+ *          ADC2: 10 channels (GPIO 0,2,4,12-15,25-27) - NOT usable with WiFi
+ *          Parameters: unit, channel, attenuation
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32_ADC_EMIC
+EMIC:define(_ESP32_ADC_EMIC,true)
+
+EMIC:tag(driverName = ESP32_ADC)
+
+// Dependencies
+EMIC:setInput(DEV:_hal/GPIO/gpio.emic)
+
+/**
+ * @fn void ADC_init(void);
+ * @alias adcInit
+ * @brief Initialize ADC subsystem
+ * @return void
+ */
+
+/**
+ * @fn int ADC_read(uint8_t unit, uint8_t channel);
+ * @alias adcRead
+ * @brief Read raw ADC value (0-4095)
+ * @param unit ADC unit (1 or 2)
+ * @param channel ADC channel number
+ * @return Raw ADC value or -1 on error
+ */
+
+/**
+ * @fn int ADC_readVoltage(uint8_t unit, uint8_t channel);
+ * @alias adcReadMv
+ * @brief Read ADC value converted to millivolts
+ * @param unit ADC unit (1 or 2)
+ * @param channel ADC channel number
+ * @return Voltage in millivolts or -1 on error
+ */
+
+/**
+ * @fn void ADC_setAttenuation(uint8_t unit, uint8_t channel, uint8_t atten);
+ * @alias adcSetAtten
+ * @brief Set ADC attenuation (voltage range)
+ * @param unit ADC unit
+ * @param channel ADC channel
+ * @param atten Attenuation (0=0dB, 1=2.5dB, 2=6dB, 3=11dB)
+ * @return void
+ */
+
+// Copy ADC files to target
+EMIC:copy(inc/adc.h > TARGET:inc/adc.h)
+EMIC:copy(src/adc.c > TARGET:adc.c)
+
+// Register ADC module
+EMIC:define(main_includes.adc, adc)
+EMIC:define(c_modules.adc, adc)
+EMIC:define(inits.adc, ADC_init)
+
+EMIC:endif

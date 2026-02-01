@@ -1,0 +1,58 @@
+/*****************************************************************************
+ * @file    bt.emic
+ * @brief   ESP32 Bluetooth Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details Bluetooth driver for ESP32 supporting Classic and BLE.
+ *          Parameters: type (classic/ble/dual), deviceName
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32_BT_EMIC
+EMIC:define(_ESP32_BT_EMIC,true)
+
+EMIC:tag(driverName = ESP32_Bluetooth)
+
+// Dependencies
+EMIC:setInput(DEV:_hard/.{system.ucName}./System/system.emic)
+
+/**
+ * @fn void BT_init(void);
+ * @alias btInit
+ * @brief Initialize Bluetooth subsystem
+ * @return void
+ */
+
+/**
+ * @fn void BT_setDeviceName(const char* name);
+ * @alias btSetName
+ * @brief Set Bluetooth device name
+ * @param name Device name (max 32 chars)
+ * @return void
+ */
+
+/**
+ * @fn bool BLE_startAdvertising(void);
+ * @alias bleAdvertise
+ * @brief Start BLE advertising
+ * @return true if started
+ */
+
+/**
+ * @fn bool BLE_stopAdvertising(void);
+ * @alias bleStopAdvertise
+ * @brief Stop BLE advertising
+ * @return true if stopped
+ */
+
+// Copy Bluetooth files to target
+EMIC:copy(inc/bt.h > TARGET:inc/bt.h)
+EMIC:copy(src/bt_classic.c > TARGET:bt_classic.c)
+EMIC:copy(src/ble.c > TARGET:ble.c)
+
+// Register Bluetooth module
+EMIC:define(main_includes.bt, bt)
+EMIC:define(c_modules.bt, bt)
+
+EMIC:endif

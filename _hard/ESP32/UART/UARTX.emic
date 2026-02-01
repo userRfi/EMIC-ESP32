@@ -1,0 +1,86 @@
+/*****************************************************************************
+ * @file    UARTX.emic
+ * @brief   ESP32 UART Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details UART driver for ESP32. Supports UART0, UART1, UART2.
+ *          Parameters: port, baud, BufferSize
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32_UART.{port}._EMIC
+EMIC:define(_ESP32_UART.{port}._EMIC,true)
+
+EMIC:tag(driverName = ESP32_UART.{port}.)
+
+// Dependencies
+EMIC:setInput(DEV:_hal/GPIO/gpio.emic)
+EMIC:setInput(DEV:_system/Stream/streamIn.emic)
+EMIC:setInput(DEV:_system/Stream/streamOut.emic)
+
+/**
+ * @fn void UART.{port}._init(void);
+ * @alias uartInit
+ * @brief Initialize UART port with configured baud rate
+ * @return void
+ */
+
+/**
+ * @fn void UART.{port}._bd(uint32_t baudRate);
+ * @alias uartSetBaud
+ * @brief Change UART baud rate at runtime
+ * @param baudRate New baud rate (e.g., 9600, 115200)
+ * @return void
+ */
+
+/**
+ * @fn void UART.{port}._write(const char* data, size_t len);
+ * @alias uartWrite
+ * @brief Write data to UART
+ * @param data Pointer to data buffer
+ * @param len Number of bytes to write
+ * @return void
+ */
+
+/**
+ * @fn int UART.{port}._read(char* buffer, size_t len);
+ * @alias uartRead
+ * @brief Read data from UART
+ * @param buffer Pointer to receive buffer
+ * @param len Maximum bytes to read
+ * @return Number of bytes read
+ */
+
+/**
+ * @fn int UART.{port}._available(void);
+ * @alias uartAvailable
+ * @brief Get number of bytes available in RX buffer
+ * @return Number of bytes available
+ */
+
+/**
+ * @fn void UART.{port}._putChar(char c);
+ * @alias uartPutChar
+ * @brief Write a single character
+ * @param c Character to write
+ * @return void
+ */
+
+/**
+ * @fn int UART.{port}._getChar(void);
+ * @alias uartGetChar
+ * @brief Read a single character (blocking)
+ * @return Character read or -1 if timeout
+ */
+
+// Copy UART files to target with parameter substitution
+EMIC:copy(inc/UARTX.h > TARGET:inc/UART.{port}..h, port=.{port}., BufferSize=.{BufferSize}., baud=.{baud}.)
+EMIC:copy(src/UARTX.c > TARGET:UART.{port}..c, port=.{port}., BufferSize=.{BufferSize}., baud=.{baud}.)
+
+// Register UART module
+EMIC:define(main_includes.UART.{port}., UART.{port}.)
+EMIC:define(c_modules.UART.{port}., UART.{port}.)
+EMIC:define(inits.UART.{port}., UART.{port}._init)
+
+EMIC:endif

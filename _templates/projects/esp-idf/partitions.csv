@@ -1,0 +1,15 @@
+# EMIC ESP32 Partition Table
+# Name,   Type, SubType,  Offset,   Size,    Flags
+# Note: Adjust sizes based on your flash size and requirements
+
+# NVS storage for system settings
+nvs,      data, nvs,      0x9000,   0x6000,
+# PHY calibration data
+phy_init, data, phy,      0xf000,   0x1000,
+# Main application
+factory,  app,  factory,  0x10000,  0x1F0000,
+# OTA update partition (optional, uncomment if needed)
+# ota_0,    app,  ota_0,    0x200000, 0x1F0000,
+# ota_1,    app,  ota_1,    0x3F0000, 0x1F0000,
+# File storage (optional, uncomment if needed)
+# storage,  data, spiffs,   0x5E0000, 0x20000,

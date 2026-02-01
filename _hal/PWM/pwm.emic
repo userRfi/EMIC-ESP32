@@ -1,0 +1,18 @@
+/*****************************************************************************
+ * @file    pwm.emic
+ * @brief   PWM HAL Delegation Layer
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details Routes PWM requests to the appropriate _hard implementation
+ *          based on the target MCU (system.ucName).
+ *****************************************************************************/
+
+EMIC:ifndef _HAL_PWM_EMIC
+EMIC:define(_HAL_PWM_EMIC,true)
+
+// Delegate to MCU-specific PWM implementation
+EMIC:setInput(DEV:_hard/.{system.ucName}./PWM/pwm.emic)
+
+EMIC:endif

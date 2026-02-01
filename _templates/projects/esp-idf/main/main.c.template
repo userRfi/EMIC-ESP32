@@ -1,0 +1,99 @@
+/*****************************************************************************
+ * @file    main.c
+ * @brief   EMIC ESP32 Main Entry Point
+ * @author  EMIC Generator
+ * @date    .{system.date}.
+ *
+ * @details Auto-generated main file for ESP-IDF projects.
+ *          Project: .{project.name}.
+ *          Target: .{system.ucName}.
+ *****************************************************************************/
+
+/* ESP-IDF includes */
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_system.h"
+#include "esp_log.h"
+
+/* EMIC System include */
+#include "inc/system.h"
+
+/* EMIC Generated includes */
+#include "inc/.{main_includes.*}..h"
+
+/* User includes */
+#include "inc/userFncFile.h"
+
+static const char *TAG = "EMIC_Main";
+
+/*****************************************************************************
+ * FreeRTOS Task Prototypes
+ *****************************************************************************/
+
+static void emic_main_task(void *pvParameters);
+
+/*****************************************************************************
+ * Main Entry Point
+ *****************************************************************************/
+
+void app_main(void)
+{
+    ESP_LOGI(TAG, "EMIC ESP32 Project Starting...");
+    ESP_LOGI(TAG, "Project: .{project.name}.");
+    ESP_LOGI(TAG, "SDK Version: %s", esp_get_idf_version());
+
+    /* Initialize system (NVS, event loop, etc.) */
+    initSystem();
+
+    /* User pre-init hook */
+    EMIC:ifdef usedEvent.SystemConfig
+    SystemConfig();
+    EMIC:endif
+
+    /* Initialize all EMIC modules */
+    .{inits.*}.();
+
+    /* User post-init hook */
+    EMIC:ifdef usedEvent.onReset
+    onReset();
+    EMIC:endif
+
+    ESP_LOGI(TAG, "Initialization complete. Starting main loop...");
+
+    /* Create main task */
+    xTaskCreate(
+        emic_main_task,
+        "emic_main",
+        4096,
+        NULL,
+        5,
+        NULL
+    );
+
+    /* app_main can return - FreeRTOS scheduler is already running */
+}
+
+/*****************************************************************************
+ * Main Task Implementation
+ *****************************************************************************/
+
+static void emic_main_task(void *pvParameters)
+{
+    (void)pvParameters;
+
+    ESP_LOGI(TAG, "Main task started");
+
+    /* Main loop */
+    while (1) {
+        /* Call all registered poll functions */
+        .{polls.*}.();
+
+        /* User main loop hook */
+        EMIC:ifdef usedEvent.onMainLoop
+        onMainLoop();
+        EMIC:endif
+
+        /* Yield to other tasks */
+        vTaskDelay(pdMS_TO_TICKS(1));
+    }
+}

@@ -1,0 +1,59 @@
+/*****************************************************************************
+ * @file    main.emic
+ * @brief   EMIC ESP-IDF Main Generator
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details Generates main.c for ESP-IDF projects using EMIC SDK.
+ *          Collects all registered inits, polls, and includes.
+ *****************************************************************************/
+
+EMIC:ifndef _EMIC_MAIN_ESP_IDF_EMIC
+EMIC:define(_EMIC_MAIN_ESP_IDF_EMIC,true)
+
+EMIC:tag(driverName = EMIC_Main_ESP_IDF)
+
+// Include system initialization
+EMIC:setInput(DEV:_hard/.{system.ucName}./System/system.emic)
+
+// Copy the ESP-IDF project template
+EMIC:copy(DEV:_templates/projects/esp-idf/CMakeLists.txt > TARGET:CMakeLists.txt, project.name=.{project.name}.)
+EMIC:copy(DEV:_templates/projects/esp-idf/main/CMakeLists.txt > TARGET:main/CMakeLists.txt)
+EMIC:copy(DEV:_templates/projects/esp-idf/partitions.csv > TARGET:partitions.csv)
+EMIC:copy(DEV:_templates/projects/esp-idf/sdkconfig.defaults > TARGET:sdkconfig.defaults)
+
+// Generate main.c from template
+EMIC:copy(DEV:_templates/projects/esp-idf/main/main.c.template > TARGET:main/main.c,
+          project.name=.{project.name}.,
+          system.ucName=.{system.ucName}.,
+          system.date=.{system.date}.)
+
+// Create empty user functions file if it doesn't exist
+EMIC:ifndef _USER_FNC_FILE_EXISTS
+EMIC:write(TARGET:main/inc/userFncFile.h)
+/*****************************************************************************
+ * @file    userFncFile.h
+ * @brief   User Functions Header
+ * @details Place your custom function declarations here.
+ *****************************************************************************/
+
+#ifndef USER_FNC_FILE_H
+#define USER_FNC_FILE_H
+
+/* User function declarations */
+
+/* Pre-initialization hook (called before module inits) */
+// void SystemConfig(void);
+
+/* Post-initialization hook (called after all inits) */
+// void onReset(void);
+
+/* Main loop hook (called every iteration) */
+// void onMainLoop(void);
+
+#endif /* USER_FNC_FILE_H */
+EMIC:endwrite
+EMIC:endif
+
+EMIC:endif

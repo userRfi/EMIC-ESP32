@@ -1,0 +1,48 @@
+/*****************************************************************************
+ * @file    gpio.emic
+ * @brief   ESP32 GPIO Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    01/31/2026
+ *
+ * @details GPIO configuration and control macros for ESP32.
+ *          Supports all 40 GPIO pins (GPIO0-GPIO39).
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32_GPIO_EMIC
+EMIC:define(_ESP32_GPIO_EMIC,true)
+
+EMIC:tag(driverName = ESP32_GPIO)
+
+/**
+ * @fn void HAL_GPIO_PinCfg(name, cfg_value);
+ * @alias gpioConfig
+ * @brief Configure GPIO pin direction and mode
+ * @param name Pin identifier (e.g., LED, BUTTON)
+ * @param cfg_value Configuration value (INPUT, OUTPUT, INPUT_PULLUP, etc.)
+ */
+
+/**
+ * @fn void HAL_GPIO_PinSet(name, value);
+ * @alias gpioWrite
+ * @brief Set GPIO pin output value
+ * @param name Pin identifier
+ * @param value Output value (0 or 1)
+ */
+
+/**
+ * @fn int HAL_GPIO_PinGet(name);
+ * @alias gpioRead
+ * @brief Read GPIO pin input value
+ * @param name Pin identifier
+ * @return Pin value (0 or 1)
+ */
+
+// Copy GPIO header to target
+EMIC:copy(inc/gpio.h > TARGET:inc/gpio.h)
+
+// Register GPIO module
+EMIC:define(main_includes.gpio, gpio)
+EMIC:define(c_modules.gpio, gpio)
+
+EMIC:endif
