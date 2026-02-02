@@ -1,0 +1,48 @@
+/*****************************************************************************
+ * @file    gpio_common.emic
+ * @brief   Common GPIO Hardware Abstraction for All ESP32 Variants
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Common GPIO driver that works across all ESP32 variants.
+ *          Variant-specific drivers should include this file.
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32_GPIO_COMMON_EMIC
+EMIC:define(_ESP32_GPIO_COMMON_EMIC,true)
+
+EMIC:tag(driverName = ESP32_GPIO_Common)
+
+/**
+ * @fn void HAL_GPIO_PinCfg(name, cfg_value);
+ * @alias gpioConfig
+ * @brief Configure GPIO pin direction and mode
+ * @param name Pin identifier (e.g., LED, BUTTON)
+ * @param cfg_value Configuration value (INPUT, OUTPUT, INPUT_PULLUP, etc.)
+ */
+
+/**
+ * @fn void HAL_GPIO_PinSet(name, value);
+ * @alias gpioWrite
+ * @brief Set GPIO pin output value
+ * @param name Pin identifier
+ * @param value Output value (0 or 1)
+ */
+
+/**
+ * @fn int HAL_GPIO_PinGet(name);
+ * @alias gpioRead
+ * @brief Read GPIO pin input value
+ * @param name Pin identifier
+ * @return Pin value (0 or 1)
+ */
+
+// Copy common GPIO header to target
+EMIC:copy(inc/gpio_common.h > TARGET:inc/gpio.h)
+
+// Register GPIO module
+EMIC:define(main_includes.gpio, gpio)
+EMIC:define(c_modules.gpio, gpio)
+
+EMIC:endif

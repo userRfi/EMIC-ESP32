@@ -1,33 +1,168 @@
 /*****************************************************************************
  * @file    generate.emic
- * @brief   EMIC ESP-IDF Project Generator
+ * @brief   EMIC ESP-IDF Project Generator (Multi-Variant)
  * @author  EMIC Team
- * @version v1.0.0
- * @date    01/31/2026
+ * @version v2.0.0
+ * @date    02/01/2026
  *
  * @details Master generator script for ESP-IDF projects.
+ *          Supports all ESP32 variants: ESP32, ESP32S2, ESP32S3, ESP32C3, ESP32C6
  *          Call this from your project's root .emic file.
+ *
+ * @usage   Set system.ucName to one of: ESP32, ESP32S2, ESP32S3, ESP32C3, ESP32C6
+ *          Optionally set system.module to a specific module (e.g., ESP32-WROOM-32)
  *****************************************************************************/
 
 EMIC:ifndef _EMIC_GENERATE_ESP_IDF
 EMIC:define(_EMIC_GENERATE_ESP_IDF,true)
 
-// Validate target MCU
-EMIC:if(.{system.ucName}.!=ESP32)
-EMIC:error("This generator is only for ESP32 target. Set system.ucName=ESP32")
+/*============================================================================
+ * Supported ESP32 Variants
+ *============================================================================*/
+
+// Define valid target list
+EMIC:define(_ESP32_VALID_TARGETS, ESP32|ESP32S2|ESP32S3|ESP32C3|ESP32C6)
+
+/*============================================================================
+ * Validate and Configure Target MCU
+ *============================================================================*/
+
+// Check if target is ESP32 (original)
+EMIC:if(.{system.ucName}.==ESP32)
+    EMIC:define(system.chip, ESP32)
+    EMIC:define(system.chipFamily, ESP32)
+    EMIC:define(system.arch, Xtensa)
+    EMIC:define(system.cores, 2)
+    EMIC:define(system.hasBtClassic, 1)
+    EMIC:define(system.hasBle, 1)
+    EMIC:define(system.hasWifi, 1)
+    EMIC:define(system.hasUsb, 0)
+    EMIC:define(system.hasTouch, 1)
 EMIC:endif
+
+// Check if target is ESP32-S2
+EMIC:if(.{system.ucName}.==ESP32S2)
+    EMIC:define(system.chip, ESP32S2)
+    EMIC:define(system.chipFamily, ESP32-S2)
+    EMIC:define(system.arch, Xtensa)
+    EMIC:define(system.cores, 1)
+    EMIC:define(system.hasBtClassic, 0)
+    EMIC:define(system.hasBle, 0)
+    EMIC:define(system.hasWifi, 1)
+    EMIC:define(system.hasUsb, 1)
+    EMIC:define(system.hasTouch, 1)
+EMIC:endif
+
+// Check if target is ESP32-S3
+EMIC:if(.{system.ucName}.==ESP32S3)
+    EMIC:define(system.chip, ESP32S3)
+    EMIC:define(system.chipFamily, ESP32-S3)
+    EMIC:define(system.arch, Xtensa)
+    EMIC:define(system.cores, 2)
+    EMIC:define(system.hasBtClassic, 0)
+    EMIC:define(system.hasBle, 1)
+    EMIC:define(system.hasWifi, 1)
+    EMIC:define(system.hasUsb, 1)
+    EMIC:define(system.hasTouch, 1)
+EMIC:endif
+
+// Check if target is ESP32-C3
+EMIC:if(.{system.ucName}.==ESP32C3)
+    EMIC:define(system.chip, ESP32C3)
+    EMIC:define(system.chipFamily, ESP32-C3)
+    EMIC:define(system.arch, RISCV)
+    EMIC:define(system.cores, 1)
+    EMIC:define(system.hasBtClassic, 0)
+    EMIC:define(system.hasBle, 1)
+    EMIC:define(system.hasWifi, 1)
+    EMIC:define(system.hasUsb, 0)
+    EMIC:define(system.hasTouch, 0)
+EMIC:endif
+
+// Check if target is ESP32-C6
+EMIC:if(.{system.ucName}.==ESP32C6)
+    EMIC:define(system.chip, ESP32C6)
+    EMIC:define(system.chipFamily, ESP32-C6)
+    EMIC:define(system.arch, RISCV)
+    EMIC:define(system.cores, 1)
+    EMIC:define(system.hasBtClassic, 0)
+    EMIC:define(system.hasBle, 1)
+    EMIC:define(system.hasWifi, 1)
+    EMIC:define(system.hasWifi6, 1)
+    EMIC:define(system.hasUsb, 0)
+    EMIC:define(system.hasTouch, 0)
+EMIC:endif
+
+// Validate target - error if none matched
+EMIC:ifndef system.chip
+EMIC:error("Invalid ESP32 target. Set system.ucName to: ESP32, ESP32S2, ESP32S3, ESP32C3, or ESP32C6")
+EMIC:endif
+
+/*============================================================================
+ * Set Framework and Include Common Definitions
+ *============================================================================*/
 
 // Set framework identifier
 EMIC:define(system.framework, ESP-IDF)
 
-// Include main generator
+// Include common ESP32 definitions
+EMIC:setInput(DEV:_hard/ESP32_common/esp32_common.h)
+
+/*============================================================================
+ * Include Variant-Specific Hardware Layer
+ *============================================================================*/
+
+// Include the appropriate hardware driver path
+EMIC:define(system.hardPath, DEV:_hard/.{system.ucName}.)
+
+/*============================================================================
+ * Module Configuration (Optional)
+ *============================================================================*/
+
+// If a specific module is defined, include its configuration
+EMIC:ifdef system.module
+    EMIC:setInput(DEV:_hard/modules/.{system.module}..h)
+EMIC:endif
+
+/*============================================================================
+ * Include Main Generator
+ *============================================================================*/
+
 EMIC:setInput(DEV:_main/esp-idf/main.emic)
 
-// Create directory structure
+/*============================================================================
+ * Create Directory Structure
+ *============================================================================*/
+
 EMIC:mkdir(TARGET:main)
 EMIC:mkdir(TARGET:main/inc)
 EMIC:mkdir(TARGET:components)
 EMIC:mkdir(TARGET:emic_generated)
 EMIC:mkdir(TARGET:emic_generated/inc)
+
+/*============================================================================
+ * Copy Variant-Specific sdkconfig.defaults
+ *============================================================================*/
+
+// Copy the appropriate sdkconfig.defaults for the target
+EMIC:if(.{system.ucName}.==ESP32)
+    EMIC:copy(DEV:_templates/projects/esp-idf/sdkconfig.defaults > TARGET:sdkconfig.defaults)
+EMIC:endif
+
+EMIC:if(.{system.ucName}.==ESP32S2)
+    EMIC:copy(DEV:_templates/projects/esp-idf/sdkconfig.ESP32S2.defaults > TARGET:sdkconfig.defaults)
+EMIC:endif
+
+EMIC:if(.{system.ucName}.==ESP32S3)
+    EMIC:copy(DEV:_templates/projects/esp-idf/sdkconfig.ESP32S3.defaults > TARGET:sdkconfig.defaults)
+EMIC:endif
+
+EMIC:if(.{system.ucName}.==ESP32C3)
+    EMIC:copy(DEV:_templates/projects/esp-idf/sdkconfig.ESP32C3.defaults > TARGET:sdkconfig.defaults)
+EMIC:endif
+
+EMIC:if(.{system.ucName}.==ESP32C6)
+    EMIC:copy(DEV:_templates/projects/esp-idf/sdkconfig.ESP32C6.defaults > TARGET:sdkconfig.defaults)
+EMIC:endif
 
 EMIC:endif

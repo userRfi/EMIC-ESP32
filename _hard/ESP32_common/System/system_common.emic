@@ -1,0 +1,68 @@
+/*****************************************************************************
+ * @file    system_common.emic
+ * @brief   Common System Initialization for All ESP32 Variants
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Common system driver that works across all ESP32 variants.
+ *          Variant-specific drivers should include this file.
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32_SYSTEM_COMMON_EMIC
+EMIC:define(_ESP32_SYSTEM_COMMON_EMIC,true)
+
+EMIC:tag(driverName = ESP32_System_Common)
+
+/**
+ * @fn void initSystem(void);
+ * @alias initSystem
+ * @brief Initialize the ESP32 system including NVS, clocks, and FreeRTOS
+ * @return void
+ */
+
+/**
+ * @fn void HAL_Delay_ms(uint32_t ms);
+ * @alias delay
+ * @brief Delay execution for specified milliseconds (FreeRTOS compatible)
+ * @param ms Number of milliseconds to delay
+ * @return void
+ */
+
+/**
+ * @fn uint32_t HAL_GetTick(void);
+ * @alias getTick
+ * @brief Get milliseconds since system boot
+ * @return Tick count in milliseconds
+ */
+
+/**
+ * @fn void HAL_SystemReset(void);
+ * @alias reset
+ * @brief Perform a software reset of the ESP32
+ * @return void (does not return)
+ */
+
+/**
+ * @fn uint32_t HAL_GetFreeHeap(void);
+ * @alias getFreeHeap
+ * @brief Get available heap memory in bytes
+ * @return Free heap size in bytes
+ */
+
+/**
+ * @fn const char* HAL_GetChipModel(void);
+ * @alias getChipModel
+ * @brief Get chip model name string
+ * @return Chip model name (e.g., "ESP32-C3")
+ */
+
+// Copy common system files to target
+EMIC:copy(inc/system_common.h > TARGET:inc/system.h)
+EMIC:copy(src/system_common.c > TARGET:system.c)
+
+// Register system initialization
+EMIC:define(main_includes.system, system)
+EMIC:define(c_modules.system, system)
+
+EMIC:endif

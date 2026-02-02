@@ -1,0 +1,22 @@
+/*****************************************************************************
+ * @file    system.emic
+ * @brief   ESP32-C3 System Initialization for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Provides system initialization for ESP32-C3 (RISC-V).
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32C3_SYSTEM_EMIC
+EMIC:define(_ESP32C3_SYSTEM_EMIC,true)
+
+EMIC:tag(driverName = ESP32C3_System)
+
+// Include common system driver
+EMIC:setInput(DEV:_hard/ESP32_common/System/system_common.emic)
+
+// Copy ESP32-C3 specific config
+EMIC:copy(../esp32c3_config.h > TARGET:inc/esp32c3_config.h)
+
+EMIC:endif

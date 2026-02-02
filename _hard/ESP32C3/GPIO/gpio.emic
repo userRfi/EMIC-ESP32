@@ -1,0 +1,19 @@
+/*****************************************************************************
+ * @file    gpio.emic
+ * @brief   ESP32-C3 GPIO Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details GPIO driver for ESP32-C3 (22 GPIOs: GPIO0-GPIO21).
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32C3_GPIO_EMIC
+EMIC:define(_ESP32C3_GPIO_EMIC,true)
+
+EMIC:tag(driverName = ESP32C3_GPIO)
+
+// Include common GPIO driver
+EMIC:setInput(DEV:_hard/ESP32_common/GPIO/gpio_common.emic)
+
+EMIC:endif

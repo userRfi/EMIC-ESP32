@@ -1,0 +1,65 @@
+/*****************************************************************************
+ * @file    bt.emic
+ * @brief   ESP32-C3 Bluetooth (BLE 5.0 only) for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Bluetooth driver for ESP32-C3.
+ *          NOTE: ESP32-C3 supports BLE 5.0 ONLY (no Bluetooth Classic).
+ *          Uses NimBLE stack for BLE operations.
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32C3_BT_EMIC
+EMIC:define(_ESP32C3_BT_EMIC,true)
+
+EMIC:tag(driverName = ESP32C3_Bluetooth)
+
+// Dependencies
+EMIC:setInput(DEV:_hard/ESP32C3/System/system.emic)
+
+/**
+ * @fn void BLE_init(void);
+ * @alias bleInit
+ * @brief Initialize BLE subsystem
+ * @return void
+ */
+
+/**
+ * @fn void BLE_setDeviceName(const char* name);
+ * @alias bleSetName
+ * @brief Set BLE device name
+ * @param name Device name (max 32 chars)
+ * @return void
+ */
+
+/**
+ * @fn bool BLE_startAdvertising(void);
+ * @alias bleAdvertise
+ * @brief Start BLE advertising
+ * @return true if started
+ */
+
+/**
+ * @fn bool BLE_stopAdvertising(void);
+ * @alias bleStopAdvertise
+ * @brief Stop BLE advertising
+ * @return true if stopped
+ */
+
+/**
+ * @fn bool BLE_isConnected(void);
+ * @alias bleIsConnected
+ * @brief Check if BLE is connected
+ * @return true if connected
+ */
+
+// Copy BLE files to target (BLE only for C3)
+EMIC:copy(inc/bt.h > TARGET:inc/bt.h)
+EMIC:copy(src/ble.c > TARGET:ble.c)
+
+// Register Bluetooth module
+EMIC:define(main_includes.bt, bt)
+EMIC:define(c_modules.bt, bt)
+
+EMIC:endif

@@ -1,0 +1,71 @@
+/*****************************************************************************
+ * @file    dac.emic
+ * @brief   ESP32-S2 DAC Driver for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Digital-to-Analog Converter driver for ESP32-S2.
+ *          2 DAC channels: DAC1 on GPIO17, DAC2 on GPIO18
+ *          8-bit resolution (0-255 output values)
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S2_DAC_EMIC
+EMIC:define(_ESP32S2_DAC_EMIC,true)
+
+EMIC:tag(driverName = ESP32S2_DAC)
+
+// Dependencies
+EMIC:setInput(DEV:_hard/ESP32S2/System/system.emic)
+
+/**
+ * @fn void DAC_init(void);
+ * @alias dacInit
+ * @brief Initialize DAC subsystem
+ * @return void
+ */
+
+/**
+ * @fn void DAC_write(uint8_t channel, uint8_t value);
+ * @alias dacWrite
+ * @brief Write value to DAC channel
+ * @param channel DAC channel (1 or 2)
+ * @param value Output value (0-255)
+ * @return void
+ */
+
+/**
+ * @fn void DAC_writeVoltage(uint8_t channel, float voltage);
+ * @alias dacWriteVoltage
+ * @brief Write voltage to DAC channel
+ * @param channel DAC channel (1 or 2)
+ * @param voltage Output voltage (0.0 - 3.3V)
+ * @return void
+ */
+
+/**
+ * @fn void DAC_enable(uint8_t channel);
+ * @alias dacEnable
+ * @brief Enable DAC channel output
+ * @param channel DAC channel (1 or 2)
+ * @return void
+ */
+
+/**
+ * @fn void DAC_disable(uint8_t channel);
+ * @alias dacDisable
+ * @brief Disable DAC channel output
+ * @param channel DAC channel (1 or 2)
+ * @return void
+ */
+
+// Copy DAC files to target
+EMIC:copy(inc/dac.h > TARGET:inc/dac.h)
+EMIC:copy(src/dac.c > TARGET:dac.c)
+
+// Register DAC module
+EMIC:define(main_includes.dac, dac)
+EMIC:define(c_modules.dac, dac)
+EMIC:define(inits.dac, DAC_init)
+
+EMIC:endif

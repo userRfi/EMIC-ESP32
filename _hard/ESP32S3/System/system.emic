@@ -1,0 +1,22 @@
+/*****************************************************************************
+ * @file    system.emic
+ * @brief   ESP32-S3 System Initialization for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Provides system initialization for ESP32-S3 (Xtensa LX7 dual-core).
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S3_SYSTEM_EMIC
+EMIC:define(_ESP32S3_SYSTEM_EMIC,true)
+
+EMIC:tag(driverName = ESP32S3_System)
+
+// Include common system driver
+EMIC:setInput(DEV:_hard/ESP32_common/System/system_common.emic)
+
+// Copy ESP32-S3 specific config
+EMIC:copy(../esp32s3_config.h > TARGET:inc/esp32s3_config.h)
+
+EMIC:endif

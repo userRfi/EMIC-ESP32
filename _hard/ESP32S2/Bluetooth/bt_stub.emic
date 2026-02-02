@@ -1,0 +1,78 @@
+/*****************************************************************************
+ * @file    bt_stub.emic
+ * @brief   ESP32-S2 Bluetooth Stubs for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Bluetooth stub driver for ESP32-S2.
+ *          ESP32-S2 does NOT support Bluetooth (neither Classic nor BLE).
+ *          These stubs provide compatibility functions that return error codes.
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S2_BT_STUB_EMIC
+EMIC:define(_ESP32S2_BT_STUB_EMIC,true)
+
+EMIC:tag(driverName = ESP32S2_Bluetooth_Stub)
+
+// Dependencies
+EMIC:setInput(DEV:_hard/ESP32S2/System/system.emic)
+
+/**
+ * @note ESP32-S2 does NOT support Bluetooth.
+ *       All functions below are stubs that return error codes.
+ *       Use ESP32, ESP32-C3, ESP32-S3, or ESP32-C6 for Bluetooth.
+ */
+
+/**
+ * @fn int BLE_init(void);
+ * @alias bleInit
+ * @brief Initialize BLE subsystem (STUB - always fails)
+ * @return -1 (ESP32-S2 has no Bluetooth)
+ */
+
+/**
+ * @fn int BLE_setDeviceName(const char* name);
+ * @alias bleSetName
+ * @brief Set BLE device name (STUB - always fails)
+ * @param name Device name (ignored)
+ * @return -1 (ESP32-S2 has no Bluetooth)
+ */
+
+/**
+ * @fn int BLE_startAdvertising(void);
+ * @alias bleAdvertise
+ * @brief Start BLE advertising (STUB - always fails)
+ * @return -1 (ESP32-S2 has no Bluetooth)
+ */
+
+/**
+ * @fn int BLE_stopAdvertising(void);
+ * @alias bleStopAdvertise
+ * @brief Stop BLE advertising (STUB - always fails)
+ * @return -1 (ESP32-S2 has no Bluetooth)
+ */
+
+/**
+ * @fn bool BLE_isConnected(void);
+ * @alias bleIsConnected
+ * @brief Check if BLE is connected (STUB - always false)
+ * @return false (ESP32-S2 has no Bluetooth)
+ */
+
+/**
+ * @fn bool BT_isAvailable(void);
+ * @alias btAvailable
+ * @brief Check if Bluetooth is available on this chip
+ * @return false (ESP32-S2 has no Bluetooth)
+ */
+
+// Copy Bluetooth stub files to target
+EMIC:copy(inc/bt_stub.h > TARGET:inc/bt.h)
+EMIC:copy(src/bt_stub.c > TARGET:bt_stub.c)
+
+// Register Bluetooth stub module
+EMIC:define(main_includes.bt, bt)
+EMIC:define(c_modules.bt_stub, bt_stub)
+
+EMIC:endif

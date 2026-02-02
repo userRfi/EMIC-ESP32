@@ -1,0 +1,55 @@
+/*****************************************************************************
+ * @file    pwm.emic
+ * @brief   ESP32-C3 PWM (LEDC) Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details PWM driver for ESP32-C3 using LEDC peripheral.
+ *          6 low-speed channels only (no high-speed on C3).
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32C3_PWM_EMIC
+EMIC:define(_ESP32C3_PWM_EMIC,true)
+
+EMIC:tag(driverName = ESP32C3_PWM)
+
+// Dependencies
+EMIC:setInput(DEV:_hard/ESP32C3/GPIO/gpio.emic)
+
+/**
+ * @fn void PWM_init(void);
+ * @alias pwmInit
+ * @brief Initialize PWM subsystem
+ * @return void
+ */
+
+/**
+ * @fn int PWM_attach(uint8_t gpio, uint32_t frequency, uint8_t resolution);
+ * @alias pwmAttach
+ * @brief Attach PWM to a GPIO pin
+ * @param gpio GPIO pin number
+ * @param frequency PWM frequency in Hz
+ * @param resolution Resolution in bits (1-14)
+ * @return Channel number (0-5) or -1 on error
+ */
+
+/**
+ * @fn void PWM_write(uint8_t channel, uint32_t duty);
+ * @alias pwmWrite
+ * @brief Set PWM duty cycle
+ * @param channel Channel number
+ * @param duty Duty cycle value (0 to 2^resolution - 1)
+ * @return void
+ */
+
+// Copy PWM files to target
+EMIC:copy(inc/pwm.h > TARGET:inc/pwm.h)
+EMIC:copy(src/pwm.c > TARGET:pwm.c)
+
+// Register PWM module
+EMIC:define(main_includes.pwm, pwm)
+EMIC:define(c_modules.pwm, pwm)
+EMIC:define(inits.pwm, PWM_init)
+
+EMIC:endif

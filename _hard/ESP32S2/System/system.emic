@@ -1,0 +1,26 @@
+/*****************************************************************************
+ * @file    system.emic
+ * @brief   ESP32-S2 System Initialization for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Provides system initialization for ESP32-S2 (Xtensa LX7 single-core).
+ *          Note: ESP32-S2 has NO Bluetooth support - WiFi only.
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S2_SYSTEM_EMIC
+EMIC:define(_ESP32S2_SYSTEM_EMIC,true)
+
+EMIC:tag(driverName = ESP32S2_System)
+
+// Include common system driver
+EMIC:setInput(DEV:_hard/ESP32_common/System/system_common.emic)
+
+// Copy ESP32-S2 specific config
+EMIC:copy(../esp32s2_config.h > TARGET:inc/esp32s2_config.h)
+
+// ESP32-S2 specific: Include Bluetooth stubs
+EMIC:setInput(DEV:_hard/ESP32S2/Bluetooth/bt_stub.emic)
+
+EMIC:endif

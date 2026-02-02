@@ -1,0 +1,68 @@
+/*****************************************************************************
+ * @file    usb.emic
+ * @brief   ESP32-S3 USB OTG Driver for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details USB OTG driver for ESP32-S3 supporting CDC and HID.
+ *          Uses TinyUSB stack.
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S3_USB_EMIC
+EMIC:define(_ESP32S3_USB_EMIC,true)
+
+EMIC:tag(driverName = ESP32S3_USB)
+
+// Dependencies
+EMIC:setInput(DEV:_hard/ESP32S3/System/system.emic)
+
+/**
+ * @fn void USB_init(void);
+ * @alias usbInit
+ * @brief Initialize USB subsystem
+ * @return void
+ */
+
+/**
+ * @fn bool USB_isConnected(void);
+ * @alias usbConnected
+ * @brief Check if USB is connected to a host
+ * @return true if connected
+ */
+
+/**
+ * @fn int USB_write(const uint8_t* data, size_t len);
+ * @alias usbWrite
+ * @brief Write data to USB CDC
+ * @param data Data to write
+ * @param len Number of bytes
+ * @return Number of bytes written
+ */
+
+/**
+ * @fn int USB_read(uint8_t* buffer, size_t len);
+ * @alias usbRead
+ * @brief Read data from USB CDC
+ * @param buffer Buffer to store data
+ * @param len Maximum bytes to read
+ * @return Number of bytes read
+ */
+
+/**
+ * @fn int USB_available(void);
+ * @alias usbAvailable
+ * @brief Get number of bytes available to read
+ * @return Number of bytes available
+ */
+
+// Copy USB files to target
+EMIC:copy(inc/usb.h > TARGET:inc/usb.h)
+EMIC:copy(src/usb.c > TARGET:usb.c)
+
+// Register USB module
+EMIC:define(main_includes.usb, usb)
+EMIC:define(c_modules.usb, usb)
+EMIC:define(inits.usb, USB_init)
+
+EMIC:endif

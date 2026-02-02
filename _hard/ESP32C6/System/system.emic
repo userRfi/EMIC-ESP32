@@ -1,0 +1,23 @@
+/*****************************************************************************
+ * @file    system.emic
+ * @brief   ESP32-C6 System Initialization for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/01/2026
+ *
+ * @details Provides system initialization for ESP32-C6 (RISC-V).
+ *          Shares architecture with ESP32-C3 but adds WiFi 6, Thread/Zigbee.
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32C6_SYSTEM_EMIC
+EMIC:define(_ESP32C6_SYSTEM_EMIC,true)
+
+EMIC:tag(driverName = ESP32C6_System)
+
+// Include common system driver (shared with C3, same RISC-V architecture)
+EMIC:setInput(DEV:_hard/ESP32_common/System/system_common.emic)
+
+// Copy ESP32-C6 specific config
+EMIC:copy(../esp32c6_config.h > TARGET:inc/esp32c6_config.h)
+
+EMIC:endif
