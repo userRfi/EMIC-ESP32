@@ -1,0 +1,19 @@
+/*****************************************************************************
+ * @file    gpio.emic
+ * @brief   ESP32-S2 GPIO Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/07/2026
+ *
+ * @details GPIO driver for ESP32-S2 (43 GPIOs: GPIO0-GPIO46, some reserved).
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S2_GPIO_EMIC
+EMIC:define(_ESP32S2_GPIO_EMIC,true)
+
+EMIC:tag(driverName = ESP32S2_GPIO)
+
+// Include common GPIO driver
+EMIC:setInput(DEV:_hard/ESP32_common/GPIO/gpio_common.emic)
+
+EMIC:endif
