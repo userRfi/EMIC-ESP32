@@ -1,0 +1,74 @@
+/*****************************************************************************
+ * @file    spi.emic
+ * @brief   ESP32-S3 SPI Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/07/2026
+ *
+ * @details SPI driver for ESP32-S3. Supports Master and Slave modes.
+ *          ESP32-S3 has SPI2 and SPI3 available for general use.
+ *          SPI2 defaults: MOSI=11, MISO=13, CLK=12, CS=10
+ *          SPI3 defaults: MOSI=35, MISO=37, CLK=36, CS=34
+ *          Parameters: mode (Master/Slave), host (2/3), speed
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S3_SPI.{host}._EMIC
+EMIC:define(_ESP32S3_SPI.{host}._EMIC,true)
+
+EMIC:tag(driverName = ESP32S3_SPI.{host}.)
+
+// Dependencies
+EMIC:setInput(DEV:_hal/GPIO/gpio.emic)
+
+/**
+ * @fn void SPI.{host}._init(void);
+ * @alias spiInit
+ * @brief Initialize SPI host with configured parameters
+ * @return void
+ */
+
+/**
+ * @fn void SPI.{host}._transfer(const uint8_t* txData, uint8_t* rxData, size_t len);
+ * @alias spiTransfer
+ * @brief Full-duplex SPI transfer
+ * @param txData Pointer to transmit data (or NULL for read-only)
+ * @param rxData Pointer to receive buffer (or NULL for write-only)
+ * @param len Number of bytes to transfer
+ * @return void
+ */
+
+/**
+ * @fn void SPI.{host}._write(const uint8_t* data, size_t len);
+ * @alias spiWrite
+ * @brief Write data to SPI (ignore received data)
+ * @param data Pointer to transmit data
+ * @param len Number of bytes to write
+ * @return void
+ */
+
+/**
+ * @fn void SPI.{host}._read(uint8_t* data, size_t len);
+ * @alias spiRead
+ * @brief Read data from SPI (transmit zeros)
+ * @param data Pointer to receive buffer
+ * @param len Number of bytes to read
+ * @return void
+ */
+
+// Select Master or Slave implementation
+EMIC:if(.{mode}.==Master)
+EMIC:copy(Master/inc/spi.h > TARGET:inc/SPI.{host}..h, host=.{host}., speed=.{speed}.)
+EMIC:copy(Master/src/spi.c > TARGET:SPI.{host}..c, host=.{host}., speed=.{speed}.)
+EMIC:endif
+
+EMIC:if(.{mode}.==Slave)
+EMIC:copy(Slave/inc/spi.h > TARGET:inc/SPI.{host}._Slave.h, host=.{host}.)
+EMIC:copy(Slave/src/spi.c > TARGET:SPI.{host}._Slave.c, host=.{host}.)
+EMIC:endif
+
+// Register SPI module
+EMIC:define(main_includes.SPI.{host}., SPI.{host}.)
+EMIC:define(c_modules.SPI.{host}., SPI.{host}.)
+EMIC:define(inits.SPI.{host}., SPI.{host}._init)
+
+EMIC:endif

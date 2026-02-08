@@ -1,0 +1,56 @@
+/*****************************************************************************
+ * @file    timer.emic
+ * @brief   ESP32-S2 Timer Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/07/2026
+ *
+ * @details Timer driver for ESP32-S2. 4 hardware timers (2 groups x 2 timers).
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S2_TIMER_EMIC
+EMIC:define(_ESP32S2_TIMER_EMIC,true)
+
+EMIC:tag(driverName = ESP32S2_Timer)
+
+EMIC:setInput(DEV:_hard/.{system.ucName}./System/system.emic)
+
+/**
+ * @fn void Timer_init(void);
+ * @alias timerInit
+ * @brief Initialize timer subsystem
+ * @return void
+ */
+
+/**
+ * @fn int Timer_create(const char* name, uint64_t period_us, timer_callback_t callback, bool periodic);
+ * @alias timerCreate
+ * @brief Create a new timer
+ * @return Timer handle (>= 0) or -1 on error
+ */
+
+/**
+ * @fn void Timer_start(int handle);
+ * @alias timerStart
+ * @brief Start a timer
+ */
+
+/**
+ * @fn void Timer_stop(int handle);
+ * @alias timerStop
+ * @brief Stop a timer
+ */
+
+/**
+ * @fn void Timer_delete(int handle);
+ * @alias timerDelete
+ * @brief Delete a timer and free resources
+ */
+
+EMIC:copy(inc/timer.h > TARGET:inc/timer.h)
+EMIC:copy(src/timer.c > TARGET:timer.c)
+
+EMIC:define(main_includes.timer, timer)
+EMIC:define(c_modules.timer, timer)
+
+EMIC:endif

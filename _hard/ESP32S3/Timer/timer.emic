@@ -1,0 +1,71 @@
+/*****************************************************************************
+ * @file    timer.emic
+ * @brief   ESP32-S3 Timer Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/07/2026
+ *
+ * @details Timer driver for ESP32-S3 using esp_timer (software timers).
+ *          ESP32-S3 has 4 hardware timers (2 groups x 2 timers).
+ *          Parameters: name, period_us, callback
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32S3_TIMER_EMIC
+EMIC:define(_ESP32S3_TIMER_EMIC,true)
+
+EMIC:tag(driverName = ESP32S3_Timer)
+
+// Dependencies
+EMIC:setInput(DEV:_hard/.{system.ucName}./System/system.emic)
+
+/**
+ * @fn void Timer_init(void);
+ * @alias timerInit
+ * @brief Initialize timer subsystem
+ * @return void
+ */
+
+/**
+ * @fn int Timer_create(const char* name, uint64_t period_us, timer_callback_t callback, bool periodic);
+ * @alias timerCreate
+ * @brief Create a new timer
+ * @param name Timer name for debugging
+ * @param period_us Timer period in microseconds
+ * @param callback Function to call when timer expires
+ * @param periodic true for repeating timer, false for one-shot
+ * @return Timer handle (>= 0) or -1 on error
+ */
+
+/**
+ * @fn void Timer_start(int handle);
+ * @alias timerStart
+ * @brief Start a timer
+ * @param handle Timer handle from Timer_create
+ * @return void
+ */
+
+/**
+ * @fn void Timer_stop(int handle);
+ * @alias timerStop
+ * @brief Stop a timer
+ * @param handle Timer handle
+ * @return void
+ */
+
+/**
+ * @fn void Timer_delete(int handle);
+ * @alias timerDelete
+ * @brief Delete a timer and free resources
+ * @param handle Timer handle
+ * @return void
+ */
+
+// Copy timer files to target
+EMIC:copy(inc/timer.h > TARGET:inc/timer.h)
+EMIC:copy(src/timer.c > TARGET:timer.c)
+
+// Register timer module
+EMIC:define(main_includes.timer, timer)
+EMIC:define(c_modules.timer, timer)
+
+EMIC:endif

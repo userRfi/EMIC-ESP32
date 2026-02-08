@@ -1,0 +1,77 @@
+/*****************************************************************************
+ * @file    wifi.emic
+ * @brief   ESP32-C3 WiFi Hardware Abstraction for EMIC SDK
+ * @author  EMIC Team
+ * @version v1.0.0
+ * @date    02/07/2026
+ *
+ * @details WiFi driver for ESP32-C3 supporting Station and AP modes.
+ *          Based on esp_wifi component. WiFi 4 (802.11n) support.
+ *          Parameters: mode (STA/AP/APSTA), ssid, password
+ *****************************************************************************/
+
+EMIC:ifndef _ESP32C3_WIFI_EMIC
+EMIC:define(_ESP32C3_WIFI_EMIC,true)
+
+EMIC:tag(driverName = ESP32C3_WiFi)
+
+// Dependencies
+EMIC:setInput(DEV:_hard/.{system.ucName}./System/system.emic)
+
+/**
+ * @fn void WiFi_init(void);
+ * @alias wifiInit
+ * @brief Initialize WiFi subsystem
+ * @return void
+ */
+
+/**
+ * @fn bool WiFi_connect(const char* ssid, const char* password);
+ * @alias wifiConnect
+ * @brief Connect to a WiFi network
+ * @param ssid Network SSID
+ * @param password Network password (NULL for open networks)
+ * @return true if connection initiated
+ */
+
+/**
+ * @fn bool WiFi_disconnect(void);
+ * @alias wifiDisconnect
+ * @brief Disconnect from current network
+ * @return true if disconnected
+ */
+
+/**
+ * @fn bool WiFi_isConnected(void);
+ * @alias wifiIsConnected
+ * @brief Check if connected to a network
+ * @return true if connected
+ */
+
+/**
+ * @fn void WiFi_getIP(char* buffer);
+ * @alias wifiGetIP
+ * @brief Get current IP address
+ * @param buffer Buffer to store IP string (min 16 bytes)
+ * @return void
+ */
+
+/**
+ * @fn bool WiFi_startAP(const char* ssid, const char* password);
+ * @alias wifiStartAP
+ * @brief Start Access Point mode
+ * @param ssid AP SSID
+ * @param password AP password (min 8 chars, NULL for open)
+ * @return true if AP started
+ */
+
+// Copy WiFi files to target
+EMIC:copy(inc/wifi.h > TARGET:inc/wifi.h)
+EMIC:copy(src/wifi.c > TARGET:wifi.c)
+
+// Register WiFi module
+EMIC:define(main_includes.wifi, wifi)
+EMIC:define(c_modules.wifi, wifi)
+EMIC:define(inits.wifi, WiFi_init)
+
+EMIC:endif
